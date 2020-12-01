@@ -38,7 +38,7 @@ def main(args:[str]) -> int:
 
         # Iterate over results, writing them
         for n,_,d in colour_mapped_data:
-            oname:str = join(pargs.output_dir, n + output_formatter[pargs.output_format][0])
+            oname:str = join(pargs.output_dir, n + pargs.output_suffix + output_formatter[pargs.output_format][0])
             with open(oname, 'w+') as f:
                 print(output_formatter[pargs.output_format][1](d), file=f)
 
