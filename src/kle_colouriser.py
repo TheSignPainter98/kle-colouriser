@@ -29,7 +29,7 @@ def main(args:[str]) -> int:
     kle_inputs:List[Tuple[str, str, List[dict]]] = list(map(lambda f: (splitext(basename(f))[0], f, parse_kle(f)), kle_input_names))
 
     # Apply colour-map rules
-    apply_inputted_colour_map:Callable = partial(apply_colour_map, colour_map)
+    apply_inputted_colour_map:Callable = partial(apply_colour_map, printi, colour_map)
     #  colour_mapped_data:List[Tuple[str, str, List[dict]]] = list(map(apply_inputted_colour_map, kle_inputs))
     colour_mapped_data:List[Tuple[str, str, List[dict]]] = []
     for kle_input in kle_inputs:
