@@ -36,9 +36,6 @@ def main(args:[str]) -> int:
         printi('Applying colour map to "%s"...' % kle_input[0])
         colour_mapped_data.append(apply_inputted_colour_map(kle_input))
 
-    # Sanitise before output
-    remove_private_data(colour_mapped_data)
-
     # Output
     if pargs.output_format != 'none':
         # Ensure output directory actually exists
@@ -56,8 +53,9 @@ def main(args:[str]) -> int:
         for n,_,d in colour_mapped_data:
             oname:str = join(pargs.output_dir, n + pargs.output_suffix + output_formatter[pargs.output_format][0])
             printi('Writing output "%s"' % oname)
+            serialised_data:[[Union[dict, str]]] = serialise_kle_data(d)
             with open(oname, 'w+') as f:
-                print(output_formatter[pargs.output_format][1](d), file=f)
+                print(output_formatter[pargs.output_format][1](serialised_data), file=f)
 
     printi('All done.')
 
@@ -73,6 +71,19 @@ def remove_private_data(data:Union[dict, list]) -> Union[dict,list]:
     elif type(data) in [list, tuple]:
         data = list(map(remove_private_data, data))
     return data
+
+def serialise_kle_data(data:[[dict]]) -> [[Union[dict, str]]]:
+    serialised_output:[[Union[dict, str]]] = []
+
+    for row in data:
+        for key in row:
+            serialised_output.append(key)
+            serialised_output.append(key['~key'])
+
+    # Sanitise before output
+    remove_private_data(serialised_output)
+
+    return serialised_output
 
 def cond_print(q:bool, *args, **kwargs):
     if not q:
