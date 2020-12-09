@@ -3,6 +3,7 @@
 from functools import partial
 from json import dumps as jdump
 from kle_colouriser.args import parse_args, Namespace
+from kle_colouriser.colour_map_applicator import apply_colour_map
 from kle_colouriser.colour_map_parser import parse_colour_map
 from kle_colouriser.parse_kle import parse_kle
 from kle_colouriser.path import get_json_and_yaml_files

@@ -37,7 +37,7 @@ def parse_colour_map(fname:str) -> [dict]:
     return colour_map
 
 def parse_equations(rule:dict) -> dict:
-    return recursively_replace(rule, 'pos', parse_equation)
+    return recursively_replace(rule, 'key-pos', parse_equation)
 
 def parse_equation(eq:str) -> dict:
     ParserElement.enablePackrat()
@@ -80,6 +80,7 @@ def op_rep(_1:str, _2:int, toks:List[object]) -> dict:
         exit(1)
     return {
         'op': ops[op],
+        'pretty-op': op,
         'args': op_args,
     }
 
