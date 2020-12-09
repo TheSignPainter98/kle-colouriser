@@ -7,13 +7,12 @@
 - name: alphas
   cap-colour: '00ff00'
   glyph-style: 'fill:#ff0000;'
-  any:
-    key-pos: x + y <= 15
-    key-name:
-    - .-.+
-    - '[^+/*-]'
-    - ''
-    - F[1-49][0-2]?
+  key-pos: x + y <= 15
+  key-name:
+  - .-.+
+  - '[^+/*-]'
+  - ''
+  - F[1-49][0-2]?
 - name: something-else
   cap-colour: '123456'
   glyph-style: '123456'
