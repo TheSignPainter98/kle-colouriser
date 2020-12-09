@@ -78,7 +78,7 @@ def serialise_kle_data(data:[[dict]]) -> [[Union[dict, str]]]:
     for row in data:
         for key in row:
             serialised_output.append(key)
-            serialised_output.append(key['~key'])
+            serialised_output.append(key['~raw-key'])
 
     # Sanitise before output
     remove_private_data(serialised_output)

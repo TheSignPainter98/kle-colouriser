@@ -65,7 +65,8 @@ def parse_kle_raw(layout:Union[Union[str,dict],str]) -> [dict]:
 
                         # Duplicate the cap and apply name and position fields
                         parsed_cap:dict = copy_output_keys(parser_state, parser_state_output_keys)
-                        parsed_cap['~key'] = cap
+                        parsed_cap['~raw-key'] = cap
+                        parsed_cap['~key'] = sanitise_cap_name(cap)
                         parsed_cap['~pos'] = parser_state.pos
                         parsed_layout_row.append(parsed_cap)
                     # Reset parser state
@@ -78,3 +79,6 @@ def parse_kle_raw(layout:Union[Union[str,dict],str]) -> [dict]:
 
 def copy_output_keys(state:SimpleNamespace, output_keys:[str]) -> dict:
     return { k:v for k,v in state.__dict__.items() if k in output_keys }
+
+def sanitise_cap_name(s:str) -> str:
+    return s.replace('\n', '-')
