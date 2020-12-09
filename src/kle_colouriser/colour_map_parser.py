@@ -33,11 +33,10 @@ ops = dict_union(uniops, binops, condops)
 def parse_colour_map(fname:str) -> [dict]:
     raw_map:[dict] = read_yaml(fname)
     colour_map:[dict] = list(map(parse_equations, raw_map))
-
     return colour_map
 
 def parse_equations(rule:dict) -> dict:
-    return recursively_replace(rule, 'key-pos', parse_equation)
+    return recursively_add(rule, 'key-pos', 'parsed-key-pos', parse_equation)
 
 def parse_equation(eq:str) -> dict:
     ParserElement.enablePackrat()
@@ -84,14 +83,13 @@ def op_rep(_1:str, _2:int, toks:List[object]) -> dict:
         'args': op_args,
     }
 
-def recursively_replace(data:object, key:str, f:Callable) -> object:
+def recursively_add(data:object, old_key:str, new_key:str, f:Callable) -> object:
     rules:dict = {
-        dict: lambda d: { k: f(v) if k == key else recursively_replace(v, key, f) for k,v in d.items() },
+        dict: lambda d: dict_union({ k: (recursively_add(v, old_key, new_key, f) if k != old_key else v) for k,v in d.items() }, { new_key: f(d[old_key]) } if old_key in d else {}),
         float: lambda f: f,
         int: lambda i: i,
-        list: lambda l: list(map(lambda e: recursively_replace(e, key, f), data)),
+        list: lambda l: list(map(lambda e: recursively_add(e, old_key, new_key, f), data)),
         str: lambda s: s,
         type(None): lambda n: n,
     }
-    ret:object = rules[type(data)](data)
-    return ret
+    return rules[type(data)](data)

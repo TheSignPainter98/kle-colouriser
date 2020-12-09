@@ -1,5 +1,5 @@
 from functools import reduce
-from numpy import array as cos, array as Matrix, sin, radians
+from numpy import cos, array as Matrix, sin, radians
 
 def dict_union(*ds:[dict]) -> dict:
     def _dict_union(a:dict, b:dict) -> dict:
