@@ -3,3 +3,4 @@ types*.taghl
 koobs/
 *.swp
 __pycache__/
+requirements.txt
