@@ -71,7 +71,7 @@ Passing `--verbosity=2` will show the results of evaluating each condition withi
 ## Caveats
 
 Please note that given the quite organic nature of many keyboard layouts, some colour-map rules may be applicable to some but not others, and as such a human touch may occasionally be required.
-For example, a 1u-wide stripe of colour at a 30° angle may work well for a 100% keyboard, but for an orthonormal one, a 45° angle may be required for the same visual effect due to aliasing (`kle-colouriser` will not support anti-aliasing).
+For example, a 1u-wide stripe of colour at a 30° angle may work well for a 100% keyboard, but for an orthogonal one, a 45° angle may be required for the same visual effect due to aliasing (`kle-colouriser` will not support anti-aliasing).
 To some extent it may be possible to adapt the colour-map rules slightly e.g. by using different rules with [`layout-file-name`](#the-layout-file-name-condition) conditions to react differently to problematic layout files.
 
 The decision of whether to perfect already-good colour-map files or to simply amend problems by hand will entirely depend on the user’s workflow.
