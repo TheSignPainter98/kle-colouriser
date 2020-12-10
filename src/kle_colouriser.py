@@ -9,7 +9,7 @@ from kle_colouriser.parse_kle import parse_kle
 from kle_colouriser.path import get_json_and_yaml_files
 from os import mkdir
 from os.path import basename, exists, join, splitext
-from sys import argv, exit
+from sys import argv, exit, stderr
 from typing import Callable, List, Tuple, Union
 from yaml import dump as ydump
 
@@ -18,13 +18,13 @@ printi:Callable = None
 def main(args:[str]) -> int:
     global printi
     pargs:SimpleNamespace = parse_args(args)
-    printi = partial(cond_print, pargs.quiet)
+    printi = partial(cond_print, pargs.verbosity)
 
     # Parse colour-map file
     colour_map:[dict] = parse_colour_map(pargs.colour_map)
 
     # Get and parse KLE inputs
-    printi('Getting input files from directory "%s"...' % pargs.kle_in_dir)
+    printi(1, 'Getting input files from directory "%s"...' % pargs.kle_in_dir)
     kle_input_names:[str] = get_json_and_yaml_files(pargs.kle_in_dir)
     kle_inputs:List[Tuple[str, str, List[dict]]] = list(map(lambda f: (splitext(basename(f))[0], f, parse_kle(f)), kle_input_names))
 
@@ -33,7 +33,7 @@ def main(args:[str]) -> int:
     #  colour_mapped_data:List[Tuple[str, str, List[dict]]] = list(map(apply_inputted_colour_map, kle_inputs))
     colour_mapped_data:List[Tuple[str, str, List[dict]]] = []
     for kle_input in kle_inputs:
-        printi('Applying colour map to "%s"...' % kle_input[0])
+        printi(1, 'Applying colour map to "%s"...' % kle_input[0])
         colour_mapped_data.append(apply_inputted_colour_map(kle_input))
 
     # Output
@@ -52,12 +52,13 @@ def main(args:[str]) -> int:
         # Iterate over results, writing them
         for n,_,d in colour_mapped_data:
             oname:str = join(pargs.output_dir, n + pargs.output_suffix + output_formatter[pargs.output_format][0])
-            printi('Writing output "%s"' % oname)
+            printi(2, 'Serialising data for "%s"...' % oname)
             serialised_data:[[Union[dict, str]]] = serialise_kle_data(d)
+            printi(1, 'Writing output "%s"...' % oname)
             with open(oname, 'w+') as f:
                 print(output_formatter[pargs.output_format][1](serialised_data), file=f)
 
-    printi('All done.')
+    printi(1, 'All done.')
 
     return 0
 
@@ -85,8 +86,10 @@ def serialise_kle_data(data:[[dict]]) -> [[Union[dict, str]]]:
 
     return serialised_output
 
-def cond_print(q:bool, *args, **kwargs):
-    if not q:
+def cond_print(v:int, l:int, *args, **kwargs):
+    if type(l) != int or not 0 <= l <= 2:
+        raise Exception('Logging requires integral level between 0 and 2, got "%s" instead.' % str(l))
+    if l <= v:
         print(*args, **kwargs)
 
 if __name__ == '__main__':

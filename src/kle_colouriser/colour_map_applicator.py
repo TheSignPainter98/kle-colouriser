@@ -16,9 +16,9 @@ def apply_colour_map(printi:Callable, colour_map:List[dict], kle_input:Tuple[str
 
 def apply_colour_map_to_cap(context:dict, colour_map:List[dict], cap:dict) -> dict:
     for rule in colour_map:
-        context['printi']('Testing cap "%s" against rule "%s"...' %(cap['~key'], rule['name']))
+        context['printi'](2, 'Testing cap "%s" against rule "%s"...' %(cap['~key'], rule['name']))
         if rule_matches(context, cap, rule):
-            context['printi']('Cap "%s" matches rule "%s"...' %(cap['~key'], rule['name']))
+            context['printi'](1, 'Cap "%s" matches rule "%s"...' %(cap['~key'], rule['name']))
             cap['c'] = rule['cap-colour']
             cap['t'] = rule['glyph-style']
             cap['appled-colour-rule'] = rule['name']
@@ -28,7 +28,7 @@ def rule_matches(context, cap:dict, rule:dict) -> bool:
     return all(resolve_matches(context, cap, rule))
 
 def resolve_matches(context:dict, cap:dict, rule:dict) -> [bool]:
-    printi:Callable = context['printi']
+    printi:Callable = partial(context['printi'], 2)
     printi_name:Callable = partial(printi, '%s:' % context['short-layout-file-name'])
     conds:[bool] = []
 
