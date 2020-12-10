@@ -1,0 +1,4 @@
+name: kle-colouriser
+version: VERSION
+desc: A logical colouriser for KLE files
+bug_report_address: 'https://github.com/TheSignPainter98/kle-colouriser/issues'

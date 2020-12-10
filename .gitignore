@@ -4,3 +4,12 @@ koobs/
 *.swp
 __pycache__/
 requirements.txt
+kle-colouriser
+kle-colouriser.yml
+kle-colouriser-binary/
+kle-colouriser-binarytemp
+version.py
+*.1
+*.1.gz
+*.zip
+ChangeLog
