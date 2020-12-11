@@ -124,7 +124,7 @@ Conditions are constructed as follows, closely following Python+C syntax.
     - `==`, equal
     - `!=`, not equal
 - A pair of conditions may be used in logical operations; this is also a condition:
-	- `!` logical negation (`true` iff either but not both inputs are `true`)
+	- `!` logical negation (`true` iff its input is `false`)
 	- `&` logical conjunction (`true` iff both inputs are `true`)
 	- `|` logical disjunction (`true` iff either input is `true`)
 	- `^` exclusive or (`true` iff either but not both inputs is `true`)
