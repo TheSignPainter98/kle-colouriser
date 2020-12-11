@@ -2,7 +2,7 @@ from .util import dict_union
 from .yaml_io import read_yaml
 from collections import OrderedDict
 from pyparsing import infixNotation, Literal, oneOf, opAssoc, ParserElement, ParseException, pyparsing_common, Word
-from sys import getrecursionlimit, setrecursionlimit
+from sys import getrecursionlimit, setrecursionlimit, stderr
 from typing import Callable, Iterator, List, Tuple
 
 LOWER_RECURSION_LIMIT:int = 3000
@@ -12,14 +12,15 @@ uniops:OrderedDict = OrderedDict([
         ('-', lambda v: -v),
     ])
 binops:OrderedDict = OrderedDict([
-        ('^', lambda a,b: a ** b),
+        ('^^', lambda a,b: a ** b),
         ('*', lambda a,b: a * b),
         ('/', lambda a,b: a / b),
         ('//', lambda a,b: a // b),
+        ('%', lambda a,b: a % b),
         ('+', lambda a,b: a + b),
         ('-', lambda a,b: a - b),
     ])
-condops:OrderedDict = OrderedDict([
+compops:OrderedDict = OrderedDict([
         ('<', lambda a,b: a < b),
         ('<=', lambda a,b: a <= b),
         ('>', lambda a,b: a > b),
@@ -28,7 +29,15 @@ condops:OrderedDict = OrderedDict([
         ('==', lambda a,b: a == b),
         ('!=', lambda a,b: a != b),
     ])
-ops = dict_union(uniops, binops, condops)
+logicuniops:OrderedDict = OrderedDict([
+        ('!', lambda c: not c),
+    ])
+logicbinops:OrderedDict = OrderedDict([
+        ('&', lambda c1,c2: c1 and c2),
+        ('|', lambda c1,c2: c1 or c2),
+        ('^', lambda c1,c2: c1 ^ c2),
+    ])
+ops = dict_union(uniops, binops, compops, logicuniops, logicbinops)
 
 def parse_colour_map(fname:str) -> [dict]:
     raw_map:[dict] = read_yaml(fname)
@@ -54,14 +63,18 @@ def parse_equation(eq:str) -> dict:
             [ (Literal(op), 1, opAssoc.RIGHT, op_rep) for op in uniops ]
             + [ (Literal(op), 2, opAssoc.LEFT, op_rep) for op in binops ]
         )
-    cond = infixNotation(expr,
-            [ (Literal(op), 2, opAssoc.LEFT, op_rep) for op in condops ]
+    comp = infixNotation(expr,
+            [ (Literal(op), 2, opAssoc.LEFT, op_rep) for op in compops ]
+        )
+    cond = infixNotation(comp,
+            [ (Literal(op), 1, opAssoc.RIGHT, op_rep) for op in logicuniops ]
+            + [ (Literal(op), 2, opAssoc.LEFT, op_rep) for op in logicbinops ]
         )
 
     try:
         return cond.parseString(eq, parseAll=True)[0]
     except ParseException as pex:
-        print('Error while parsing "%s": %s' %(eq, str(pex)))
+        print('Error while parsing "%s": %s' %(eq, str(pex)), file=stderr)
         return None
 
 def op_rep(_1:str, _2:int, toks:List[object]) -> dict:
