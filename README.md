@@ -112,7 +112,7 @@ Conditions are constructed as follows, closely following Python+C syntax.
     - `*`, multiplication
     - `/`, division, e.g. `3 / 2 = 1.5`
     - `//`, integer division, e.g. `3 // 2 = 1`
-    - `%`, modulo, remainder of d, e.g. `3 % 2 = 1`
+    - `%`, modulo, remainder of integer division, e.g. `3 % 2 = 1`
     - `+`, addition
     - `-`, subtraction
 - A pair of expressions may be compared to form a condition
@@ -203,4 +203,5 @@ In the latter case, assuming reasonable colour-maps, the amount of work to fix t
 [latest-release]: https://github.com/TheSignPainter98/kle-colouriser/releases/latest
 [pip3]: https://pip.pypa.io/en/stable/
 [python3]: https://www.python.org
+[regex-playground]: https://regexr.com
 [yaml]: https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html
