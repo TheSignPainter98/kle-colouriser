@@ -36,6 +36,8 @@ logicbinops:OrderedDict = OrderedDict([
         ('&', lambda c1,c2: c1 and c2),
         ('|', lambda c1,c2: c1 or c2),
         ('^', lambda c1,c2: c1 ^ c2),
+        ('=>', lambda c1,c2: not c1 or c2),
+        ('<=>', lambda c1,c2: c1 == c2),
     ])
 ops = dict_union(uniops, binops, compops, logicuniops, logicbinops)
 

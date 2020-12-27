@@ -128,6 +128,8 @@ Conditions are constructed as follows, closely following Python+C syntax.
 	- `&` logical conjunction (`true` iff both inputs are `true`)
 	- `|` logical disjunction (`true` iff either input is `true`)
 	- `^` exclusive or (`true` iff either but not both inputs is `true`)
+	- `=>` logical implication (`true` iff either the left is false, or both are true)
+	- `<=>` logical equivalence (`true` iff both inputs have the same value)
 
 If a conditional operator is omitted, a value of `true` is returned _if and only if_ the numerical value resolved is not equal to zero.
 
@@ -141,7 +143,7 @@ Note that as only binary operations are considered, multiple comparisons can hav
 = True
 ```
 
-Use the `&` operator instead: `a < b < c <=> a < b & b < c`.
+Use the `&` operator instead: `a < b < c` is equivalent to `a < b & b < c`.
 
 #### The `key-name` condition
 
