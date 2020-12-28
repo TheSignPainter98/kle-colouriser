@@ -1,7 +1,7 @@
 # KLE-Colouriser
 
 A small shell script for applying colouring rules to KLE files.
-When paired with [`keycov`][keycov], it makes it much easier to produce any insane colourway-pattern compatible with a diverse range of keyboards.
+When paired with [`keycov`][keycov], it makes it much easier to make any insane colourway-pattern compatible with a diverse range of keyboards.
 
 This script can also be used to create a single source of truth for colourising information.
 
@@ -34,7 +34,7 @@ Download and unzip the [latest release][latest-release] then open up a terminal 
 ```bash
 cd ~/Downloads/kle-colouriser/
 pip3 install -r requirements.txt
-python3 kle-colouriser.py --help
+python3 ./kle-colouriser.py --help
 ```
 
 This last step should print out the usage information for `kle-colouriser`.
@@ -52,10 +52,13 @@ To run `kle-colouriser`, open a terminal and type the following (assuming that t
 
 ```bash
 cd ~/Downloads/kle-colouriser/
-python3 kle-colouriser.py examples/colour-map.yml keebs/ colourised-keebs/
+python3 kle-colouriser.py examples/colour-map.yml examples/keebs/ colourised-keebs/
 ```
 
 This will apply the example colour-map to the example layouts and output the results in the (new) `colourised-keebs/` directory.
+
+If running on Linux or macOS, the `python3 kle-colouriser.py` above can be replaced with `./kle-colouriser`.
+The file `kle-colouriser` is just a zip archive of the source which can be run by python anywhere on the system its dependencies can be accessed (i.e. outside any dev environments the user has created themself).
 
 ### Configuring colour-maps
 
