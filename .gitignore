@@ -11,5 +11,6 @@ kle-colouriser-binarytemp
 version.py
 *.1
 *.1.gz
+*.pdf
 *.zip
 ChangeLog

@@ -10,9 +10,9 @@ SEMVERSION = $(subst v,,$(VERSION))
 KEYCOV_RAW_SRCS = src/kle_colouriser.py $(filter-out src/kle_colouriser/version.py,$(wildcard src/kle_colouriser/*.py))
 KEYCOV_RUN_SRCS = src/kle_colouriser/version.py $(KEYCOV_RAW_SRCS)
 KEYCOV_DATA_SRCS = $(wildcard keebs/*) $(wildcard kits/*) $(wildcard themes/*)
-KEYCOV_DIST_SRCS = requirements.txt README.md LICENSE kle-colouriser.1.gz ChangeLog $(KEYCOV_RUN_SRCS) $(KEYCOV_DATA_SRCS)
-DIST_PKG_SRCS = kle-colouriser LICENSE kle-colouriser.1.gz ChangeLog
-SDIST_PKG_SRCS = LICENSE kle-colouriser.1.gz ChangeLog build-binary.sh $(KEYCOV_RUN_SRCS)
+KEYCOV_DIST_SRCS = requirements.txt README.md LICENSE kle-colouriser.pdf kle-colouriser.1.gz ChangeLog $(KEYCOV_RUN_SRCS) $(KEYCOV_DATA_SRCS)
+DIST_PKG_SRCS = kle-colouriser LICENSE kle-colouriser.pdf kle-colouriser.1.gz ChangeLog
+SDIST_PKG_SRCS = LICENSE kle-colouriser.pdf kle-colouriser.1.gz ChangeLog build-binary.sh $(KEYCOV_RUN_SRCS)
 
 # Distributables
 DISTRIBUTABLES = kle-colouriser kle-colouriser.zip
@@ -70,11 +70,14 @@ kle-colouriser: $(KEYCOV_RUN_SRCS)
 	(echo '#!/usr/bin/env python3' | cat - $@-binarytemp) > $@
 	chmod 700 $@
 
+kle-colouriser.pdf: kle-colouriser.1
+	groff -man -Tpdf -fH < $< > $@
+
 kle-colouriser.1.gz: kle-colouriser.1
 	gzip -kf $<
 
 kle-colouriser.1: kle-colouriser src/kle_colouriser/version.py
-	(help2man --no-discard-stderr ./kle-colouriser | awk '$$0 == ".SH \"SEE ALSO\"" {exit} 1') < ./$< > $@
+	(export PATH="$$PATH:." && help2man --no-info --no-discard-stderr kle-colouriser) < ./$< > $@
 
 src/kle_colouriser/version.py: src/kle_colouriser/version.py.in kle-colouriser.yml
 	(sed "s/s_version/$(VERSION)/" | sed "s/s_name/$(shell yq -y .name kle-colouriser.yml | head -n1)/" | sed "s/s_desc/$(shell yq -y .desc kle-colouriser.yml | head -n1)/") < $< > $@
