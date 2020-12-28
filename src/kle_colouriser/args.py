@@ -1,8 +1,8 @@
 from argparse import ArgumentError, ArgumentParser, Namespace
-from .version import version_notice
+from .version import version_notice, prog_desc
 
 def parse_args(args:[str]) -> Namespace:
-    ap:ArgumentParser = ArgumentParser(prog=args[0], add_help=False)
+    ap:ArgumentParser = ArgumentParser(prog=args[0], add_help=False, description=prog_desc)
     ap.add_argument('-f', '--output-format', metavar='format', type=str, choices=[ 'json', 'none', 'yaml' ], default='json', help='The format to use when writing output')
     ap.add_argument('-h', '--help', action='help', help='Show this help message and exit')
     ap.add_argument('-s', '--output-suffix', metavar='suffix', type=str, default='', help='A suffix to place before the file-extension when outputting')

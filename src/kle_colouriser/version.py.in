@@ -1,7 +1,7 @@
+prog_desc = '''s_desc.'''.strip()
 version_notice: str = '''
 s_name s_version
 Copyright (C) 2020 Edward Jones
-s_desc.
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free
