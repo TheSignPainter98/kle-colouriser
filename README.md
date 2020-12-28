@@ -133,17 +133,17 @@ Conditions are constructed as follows, closely following Python+C syntax.
 
 If a conditional operator is omitted, a value of `true` is returned _if and only if_ the numerical value resolved is not equal to zero.
 
-Note that as only binary operations are considered, multiple comparisons can have unexpected results, such as the following.
+Note that as only binary operations are considered (exactly two inputs), multiple comparisons can have unexpected results, such as the following.
 
 ```python
 0.3 < 0.1 < 0.2
-= 0.3 < (0.1 < 0.2)
-= 0.3 < True
-= 0.3 < 1
+= (0.3 < 0.1) < 0.2
+= False < 0.2
+= 0 < 0.2
 = True
 ```
 
-Use the `&` operator instead: `a < b < c` is equivalent to `a < b & b < c`.
+Use the `&` operator instead: `a < b < c` should be expanded to `a < b & b < c`.
 
 #### The `key-name` condition
 
