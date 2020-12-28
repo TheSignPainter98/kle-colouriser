@@ -76,10 +76,26 @@ def remove_private_data(data:Union[dict, list]) -> Union[dict,list]:
 def serialise_kle_data(data:[[dict]]) -> [[Union[dict, str]]]:
     serialised_output:[[Union[dict, str]]] = []
 
+    colour_state:dict = { 'c': None, 't': None }
+
     for row in data:
         for key in row:
-            serialised_output.append(key)
+            # Determine which colour-fields to output
+            colfields_to_output:[str] = []
+            for colfield in colour_state.keys():
+                if key[colfield] != colour_state[colfield]:
+                    colfields_to_output.append(colfield)
+
+            # Filter, format and append to output
+            fields_to_output:[str] = key['~original-keys'] + colfields_to_output
+            key_inf:dict = dict(filter(lambda p: p[0] in fields_to_output, key.items()))
+            if key_inf != {}:
+                serialised_output.append(key_inf)
             serialised_output.append(key['~raw-key'])
+
+            # Update colour state
+            for colfield in colour_state.keys():
+                colour_state[colfield] = key[colfield]
 
     # Sanitise before output
     remove_private_data(serialised_output)

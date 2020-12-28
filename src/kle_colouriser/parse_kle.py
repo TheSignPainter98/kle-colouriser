@@ -21,10 +21,11 @@ parser_initial_state:dict = {
     'pos': Vector((0.0, 0.0)),
     'origin': Vector((0.0, 0.0)),
     'offset': Vector((0.0, 0.0)),
+    '~original-keys': [],
 }
 parser_state_keys:[dict] = parser_initial_state.keys()
-parser_state_reset_keys:[str] = ['d', 'w', 'h', 'w2', 'h2', 'l', 'n', 'x', 'y']
-parser_state_output_keys:[str] = ['p', 'w', 'h', 'w2', 'h2', 'l', 'n', 'r', 'x', 'y', 'r', 'rx', 'ry']
+parser_state_reset_keys:[str] = ['d', 'w', 'h', 'w2', 'h2', 'l', 'n', 'x', 'y', '~original-keys']
+parser_state_output_keys:[str] = ['p', 'w', 'h', 'w2', 'h2', 'l', 'n', 'r', 'x', 'y', 'r', 'rx', 'ry', '~original-keys']
 
 def parse_kle(fname:str) -> [dict]:
     return parse_kle_raw(read_yaml(fname))
@@ -44,6 +45,7 @@ def parse_kle_raw(layout:Union[Union[str,dict],str]) -> [dict]:
                     for cap_key in cap.keys():
                         if cap_key in parser_state_keys:
                             setattr(parser_state, cap_key, cap[cap_key])
+                    setattr(parser_state, '~original-keys', getattr(parser_state, '~original-keys') + list(cap.keys()))
 
                     # Update the positioning information
                     if 'rx' in cap:
