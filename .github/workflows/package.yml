@@ -1,0 +1,55 @@
+on:
+  release:
+    types:
+      - created
+name: Generate distributables v1
+jobs:
+  generate-artifacts:
+    name: Generate artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@master
+        with:
+          fetch-depth: 0
+          ref: master
+      - name: Get current tag
+        uses: olegtarasov/get-tag@v2
+        id: tag_name
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+      - name: Install dependencies
+        run: sudo apt-get install -y python3-setuptools
+      - name: Install pipreqs
+        run: pip3 install pipreqs
+      - name: Generate the artifacts
+        run: |
+          export PATH=$PATH:~/.local/bin
+          make clean
+          make dist -B VERSION=${{ steps.tag_name.outputs.tag }}
+      - name: Attach artifacts to release
+        uses: skx/github-action-publish-binaries@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: kle-colouriser kle-colouriser.zip kle-colouriser-${{ steps.tag_name.outputs.tag }}.tar.xz kle-colouriser-bin-${{ steps.tag_name.outputs.tag }}.tar.xz
+      # - name: Update kle-colouriser AUR package
+        # uses: KSXGitHub/github-actions-deploy-aur@v2
+        # with:
+          # pkgname: kle-colouriser
+          # pkgbuild: ./pkging/aur/kle-colouriser/PKGBUILD
+          # commit_username: ${{ secrets.AUR_USERNAME }}
+          # commit_email: ${{ secrets.AUR_EMAIL }}
+          # ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+          # commit_message: Updated AUR package
+          # ssh_keyscan_types: rsa,dsa,ecdsa,ed25519
+      # - name: Update kle-colouriser-bin AUR package
+        # uses: KSXGitHub/github-actions-deploy-aur@v2
+        # with:
+          # pkgname: kle-colouriser-bin
+          # pkgbuild: ./pkging/aur/kle-colouriser-bin/PKGBUILD
+          # commit_username: ${{ secrets.AUR_USERNAME }}
+          # commit_email: ${{ secrets.AUR_EMAIL }}
+          # ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+          # commit_message: Updated AUR package
+          # ssh_keyscan_types: rsa,dsa,ecdsa,ed25519
