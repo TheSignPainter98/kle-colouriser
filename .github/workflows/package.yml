@@ -2,7 +2,7 @@ on:
   release:
     types:
       - created
-name: Generate distributables v1
+name: Generate distributables v2
 jobs:
   generate-artifacts:
     name: Generate artifacts
@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get install -y python3-setuptools
       - name: Install pipreqs
-        run: pip3 install pipreqs
+        run: pip3 install pipreqs yq
       - name: Generate the artifacts
         run: |
           export PATH=$PATH:~/.local/bin
