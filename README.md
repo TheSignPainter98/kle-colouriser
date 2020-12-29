@@ -28,13 +28,13 @@ This script can also be used to create a single source of truth for colourising 
 ## Setup
 
 You’ll need a working installation of [python3][python3] and its package manager [pip3][pip3].
-Download and unzip the [latest release][latest-release] then open up a terminal and type the following commands.
+Download and unzip `kle-colouriser.zip` from the [latest release][latest-release] then open up a terminal and type the following commands.
 (These assume that the archive was unzipped in `~/Downloads/kle-colouriser/`.)
 
 ```bash
 cd ~/Downloads/kle-colouriser/
 pip3 install -r requirements.txt
-python3 ./kle-colouriser.py --help
+python3 src/kle-colouriser.py --help
 ```
 
 This last step should print out the usage information for `kle-colouriser`.
@@ -48,17 +48,17 @@ Before running, `kle-colouriser` will require two things:
 1. A colour-map file to apply (this guide assumes `examples/colour-map.yml`)
 2. A folderful of kle files to generate (we’ll call this `keebs/`)
 
-To run `kle-colouriser`, open a terminal and type the following (assuming that the [latest release][latest-release] was unzipped to `~/Downloads/kle-colouriser/`.
+To run `kle-colouriser`, open a terminal and type the following (assuming that the [latest release][latest-release] was unzipped to `~/Downloads/kle-colouriser/`.)
 
 ```bash
 cd ~/Downloads/kle-colouriser/
-python3 kle-colouriser.py examples/colour-map.yml examples/keebs/ colourised-keebs/
+python3 src/kle-colouriser.py examples/colour-map.yml examples/keebs/ colourised-keebs/
 ```
 
 This will apply the example colour-map to the example layouts and output the results in the (new) `colourised-keebs/` directory.
 
-If running on Linux or macOS, the `python3 kle-colouriser.py` above can be replaced with `./kle-colouriser`.
-The file `kle-colouriser` is just a zip archive of the source which can be run by python anywhere on the system its dependencies can be accessed (i.e. outside any dev environments the user has created themself).
+If running on Linux or macOS, it is possible to make the `python3` command above somewhat shorter by downloading the `kle-colouriser` binary from the [latest release][latest-release] and replacing the `python3 src/kle_colouriser.py` above with `./kle-colouriser`.
+The file `./kle-colouriser` is just a zip archive of the source which can be run by python anywhere (assuming it can access its dependencies).
 
 ### Configuring colour-maps
 
