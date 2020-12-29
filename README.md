@@ -22,6 +22,7 @@ This script can also be used to create a single source of truth for colourising 
 		* [The `not-all` condition](#the-not-all-condition)
 		* [The `not-any` condition](#the-not-any-condition)
 * [Caveats](#caveats)
+* [Author](#author)
 
 <!-- vim-markdown-toc -->
 
@@ -203,6 +204,11 @@ To some extent it may be possible to adapt the colour-map rules slightly e.g. by
 The decision of whether to perfect already-good colour-map files or to simply amend problems by hand will entirely depend on the user’s workflow.
 In the latter case, assuming reasonable colour-maps, the amount of work to fix these issues is likely less than that required to colourise the inputted layouts entirely manually.
 
+## Author
+
+This [code][github] was written by Ed Jones (Discord `@kcza#4691`).
+
+[github]: http://www.github.com/TheSignPainter98/kle-colouriser
 [keycov]: https://github.com/TheSignPainter98/keycov
 [kle]: http://www.keyboard-layout-editor.com "Keyboard layout editor"
 [latest-release]: https://github.com/TheSignPainter98/kle-colouriser/releases/latest
