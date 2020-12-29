@@ -9,7 +9,7 @@ SEMVERSION = $(subst v,,$(VERSION))
 
 # Sources
 KLE_COLOURISER_RAW_SRCS = src/kle_colouriser.py $(filter-out src/kle_colouriser/version.py,$(wildcard src/kle_colouriser/*.py))
-KLE_COLOURISER_RUN_SRCS = src/kle_colouriser/version.py $(KLE_COLOURISER_RAW_SRCS)
+KLE_COLOURISER_RUN_SRCS = kle_colouriser.py src/kle_colouriser/version.py $(KLE_COLOURISER_RAW_SRCS)
 KLE_COLOURISER_DATA_SRCS = $(wildcard keebs/*) $(wildcard kits/*) $(wildcard themes/*)
 KLE_COLOURISER_DIST_SRCS = requirements.txt README.md LICENSE kle-colouriser.pdf kle-colouriser.1.gz ChangeLog $(KLE_COLOURISER_RUN_SRCS) $(KLE_COLOURISER_DATA_SRCS)
 DIST_PKG_SRCS = kle-colouriser LICENSE kle-colouriser.pdf kle-colouriser.1.gz ChangeLog
@@ -27,8 +27,11 @@ all: kle-colouriser
 .PHONY: all
 
 run: $(KLE_COLOURISER_RUN_SRCS)
-	-@python3 ./kle_colouriser.py -v3
+	-@python3 ./kle_colouriser.py -v2 examples/colour-map.yml examples/keebs/ koobs/
 .PHONY: run
+
+kle_colouriser.py: src/kle_colouriser.py
+	ln -s $< $@
 
 github-dist: dist zip-dist
 .PHONY: github-dist

@@ -34,7 +34,7 @@ Download and unzip `kle-colouriser.zip` from the [latest release][latest-release
 ```bash
 cd ~/Downloads/kle-colouriser/
 pip3 install -r requirements.txt
-python3 src/kle-colouriser.py --help
+python3 kle-colouriser.py --help
 ```
 
 This last step should print out the usage information for `kle-colouriser`.
@@ -52,12 +52,12 @@ To run `kle-colouriser`, open a terminal and type the following (assuming that t
 
 ```bash
 cd ~/Downloads/kle-colouriser/
-python3 src/kle-colouriser.py examples/colour-map.yml examples/keebs/ colourised-keebs/
+python3 kle-colouriser.py examples/colour-map.yml examples/keebs/ colourised-keebs/
 ```
 
 This will apply the example colour-map to the example layouts and output the results in the (new) `colourised-keebs/` directory.
 
-If running on Linux or macOS, it is possible to make the `python3` command above somewhat shorter by downloading the `kle-colouriser` binary from the [latest release][latest-release] and replacing the `python3 src/kle_colouriser.py` above with `./kle-colouriser`.
+If running on Linux or macOS, it is possible to make the `python3` command above somewhat shorter by downloading the `kle-colouriser` binary from the [latest release][latest-release] and replacing the `python3 kle_colouriser.py` above with `./kle-colouriser`.
 The file `./kle-colouriser` is just a zip archive of the source which can be run by python anywhere (assuming it can access its dependencies).
 
 ### Configuring colour-maps

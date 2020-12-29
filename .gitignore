@@ -14,3 +14,5 @@ version.py
 *.pdf
 *.zip
 ChangeLog
+kle_colouriser.py
+!src/kle_colouriser.py
