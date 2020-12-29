@@ -78,7 +78,7 @@ kle-colouriser.1.gz: kle-colouriser.1
 	gzip -kf $<
 
 kle-colouriser.1: kle-colouriser src/kle_colouriser/version.py kle-colouriser.yml
-	help2man --no-info --no-discard-stderr --name "$$(yq -y .desc kle-colouriser.yml | head -n -1)" $< > $@
+	help2man --no-info --no-discard-stderr --name "$$(yq -y .desc kle-colouriser.yml | head -n -1)" ./$< > $@
 
 src/kle_colouriser/version.py: src/kle_colouriser/version.py.in kle-colouriser.yml
 	(sed "s/s_version/$(VERSION)/" | sed "s/s_name/$(shell yq -y .name kle-colouriser.yml | head -n1)/" | sed "s/s_desc/$(shell yq -y .desc kle-colouriser.yml | head -n1)/") < $< > $@
