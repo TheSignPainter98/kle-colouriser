@@ -7,12 +7,12 @@ VERSION = v0.0.1
 SEMVERSION = $(subst v,,$(VERSION))
 
 # Sources
-KEYCOV_RAW_SRCS = src/kle_colouriser.py $(filter-out src/kle_colouriser/version.py,$(wildcard src/kle_colouriser/*.py))
-KEYCOV_RUN_SRCS = src/kle_colouriser/version.py $(KEYCOV_RAW_SRCS)
-KEYCOV_DATA_SRCS = $(wildcard keebs/*) $(wildcard kits/*) $(wildcard themes/*)
-KEYCOV_DIST_SRCS = requirements.txt README.md LICENSE kle-colouriser.pdf kle-colouriser.1.gz ChangeLog $(KEYCOV_RUN_SRCS) $(KEYCOV_DATA_SRCS)
+KLE_COLOURISER_RAW_SRCS = src/kle_colouriser.py $(filter-out src/kle_colouriser/version.py,$(wildcard src/kle_colouriser/*.py))
+KLE_COLOURISER_RUN_SRCS = src/kle_colouriser/version.py $(KLE_COLOURISER_RAW_SRCS)
+KLE_COLOURISER_DATA_SRCS = $(wildcard keebs/*) $(wildcard kits/*) $(wildcard themes/*)
+KLE_COLOURISER_DIST_SRCS = requirements.txt README.md LICENSE kle-colouriser.pdf kle-colouriser.1.gz ChangeLog $(KLE_COLOURISER_RUN_SRCS) $(KLE_COLOURISER_DATA_SRCS)
 DIST_PKG_SRCS = kle-colouriser LICENSE kle-colouriser.pdf kle-colouriser.1.gz ChangeLog
-SDIST_PKG_SRCS = LICENSE kle-colouriser.pdf kle-colouriser.1.gz ChangeLog build-binary.sh $(KEYCOV_RUN_SRCS)
+SDIST_PKG_SRCS = LICENSE kle-colouriser.pdf kle-colouriser.1.gz ChangeLog build-binary.sh $(KLE_COLOURISER_RUN_SRCS)
 
 # Distributables
 DISTRIBUTABLES = kle-colouriser kle-colouriser.zip
@@ -25,7 +25,7 @@ XZ_FLAGS = -kf
 all: kle-colouriser
 .PHONY: all
 
-run: $(KEYCOV_RUN_SRCS)
+run: $(KLE_COLOURISER_RUN_SRCS)
 	-@python3 ./kle_colouriser.py -v3
 .PHONY: run
 
@@ -39,10 +39,10 @@ zip-dist: kle-colouriser.zip
 .PHONY: dist
 
 build-binary.sh: build-binary.sh.in
-	sed 's/KEYCOV_RUN_SRCS/$(subst /,\/,$(KEYCOV_RUN_SRCS))/g'  < $< > $@
+	sed 's/KLE_COLOURISER_RUN_SRCS/$(subst /,\/,$(KLE_COLOURISER_RUN_SRCS))/g'  < $< > $@
 	chmod 755 $@
 
-kle-colouriser.zip: $(KEYCOV_DIST_SRCS)
+kle-colouriser.zip: $(KLE_COLOURISER_DIST_SRCS)
 	$(ZIP) $@ $^
 
 kle-colouriser-$(SEMVERSION).tar.xz: keycov-$(SEMVERSION).tar
@@ -61,10 +61,10 @@ kle-colouriser-bin-$(SEMVERSION).tar: $(DIST_PKG_SRCS)
 	cp --parents $^ $(subst .tar,,$@)/
 	tar -cf $@ $(foreach f,$^,$(subst .tar,,$@)/$f)
 
-kle-colouriser: $(KEYCOV_RUN_SRCS)
+kle-colouriser: $(KLE_COLOURISER_RUN_SRCS)
 	[[ ! -d kle-colouriser-binary/ ]] && mkdir kle-colouriser-binary/ || true
 	[[ ! -d kle-colouriser-binary/kle_colouriser/ ]] && mkdir kle-colouriser-binary/kle_colouriser/ || true
-	cp --parents $(KEYCOV_RUN_SRCS) kle-colouriser-binary/
+	cp --parents $(KLE_COLOURISER_RUN_SRCS) kle-colouriser-binary/
 	cp kle-colouriser-binary/src/kle_colouriser.py kle-colouriser-binary/src/__main__.py
 	(cd kle-colouriser-binary/src/ && zip -q -MM - $$(find)) > $@-binarytemp
 	(echo '#!/usr/bin/env python3' | cat - $@-binarytemp) > $@
@@ -88,10 +88,10 @@ kle-colouriser.yml: kle-colouriser.yml.in
 %.py: ;
 %.py.in: ;
 
-requirements.txt: $(KEYCOV_RAW_SRCS)
+requirements.txt: $(KLE_COLOURISER_RAW_SRCS)
 	pipreqs --force --print >$@
 
-ChangeLog: scripts/change-log.sh scripts/change-log-format.awk $(KEYCOV_RUN_SRCS)
+ChangeLog: scripts/change-log.sh scripts/change-log-format.awk $(KLE_COLOURISER_RUN_SRCS)
 	./$< > $@
 
 clean:
