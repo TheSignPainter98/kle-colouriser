@@ -95,4 +95,4 @@ ChangeLog: scripts/change-log.sh scripts/change-log-format.awk $(KLE_COLOURISER_
 	./$< > $@
 
 clean:
-	$(RM) -r requirements.txt src/kle_colouriser/version.py kle-colouriser.zip __pycache__/ kle-colouriser kle-colouriser-*.tar kle-colouriser-*.tar.xz kle-colouriser.yml $(wildcard *.1) $(wildcard *.1.gz) kle-colouriser-binary/ kle-colouriser-binarytemp ChangeLog build-binary.sh
+	$(RM) -r requirements.txt src/kle_colouriser/version.py kle-colouriser.zip __pycache__/ kle-colouriser kle-colouriser-*.tar kle-colouriser-*.tar.xz kle-colouriser.yml $(wildcard *.1) $(wildcard *.1.gz) kle-colouriser-binary/ kle-colouriser-binarytemp ChangeLog build-binary.sh kle-colouriser.pdf
