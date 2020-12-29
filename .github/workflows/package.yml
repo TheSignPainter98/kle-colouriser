@@ -2,7 +2,7 @@ on:
   release:
     types:
       - created
-name: Generate distributables v2
+name: Generate distributables v3
 jobs:
   generate-artifacts:
     name: Generate artifacts
@@ -19,7 +19,7 @@ jobs:
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       - name: Install dependencies
-        run: sudo apt-get install -y python3-setuptools
+        run: sudo apt-get install -y groff help2man python3-setuptools
       - name: Install pipreqs
         run: pip3 install pipreqs yq
       - name: Generate the artifacts
