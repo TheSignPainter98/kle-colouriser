@@ -1,6 +1,7 @@
 #!/usr/bin/make
 
 .DEFAULT_GOAL = all
+SHELL := bash
 
 # Build parameters
 VERSION = v0.0.1
